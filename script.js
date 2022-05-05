@@ -5,6 +5,9 @@ const countdownEl = document.getElementById('countdown');
 const countdownElTitle = document.getElementById('countdown-title');
 const countdownBtn = document.getElementById('countdown-button');
 const timeElements = document.querySelectorAll('span');
+const completeInfo = document.getElementById('complete-info');
+const completeElement = document.getElementById('complete');
+const completeBtn = document.getElementById('complete-button');
 
 let countdownTitle = '';
 let countdownDate='';
@@ -35,18 +38,26 @@ function updateDOM(){
         const seconds = Math.floor((distance % minute) / second);
         console.log(days, hours, minutes, seconds);
     
-        //Populate Countdown
-        countdownElTitle.textContent = `${countdownTitle}`;
-        timeElements[0].textContent = `${days}`;
-        timeElements[1].textContent = `${hours}`;
-        timeElements[2].textContent = `${minutes}`;
-        timeElements[3].textContent = `${seconds}`;
-    
         //Hide Input
         inputCountDownTimer.hidden=true;
-        
-        //Show Countdown
-        countdownEl.hidden = false;
+    
+        //If the countdown has ended , show complete
+        if (distance < 0){
+            countdownEl.hidden = true;
+            clearInterval(countdownActive);
+            completeInfo.textContent = `${countdownTitle} finished on ${countdownDate}`;
+            completeElement.hidden = false;
+        }
+        else{
+            //Else show countdown is in progress
+            countdownElTitle.textContent = `${countdownTitle}`;
+            timeElements[0].textContent = `${days}`;
+            timeElements[1].textContent = `${hours}`;
+            timeElements[2].textContent = `${minutes}`;
+            timeElements[3].textContent = `${seconds}`;   
+            completeElement.hidden = true;
+            countdownEl.hidden = false;
+        }
     }, second);
 
 }
@@ -55,6 +66,7 @@ function updateDOM(){
 function reset(){
     //Hide Countdowns & show input form
     countdownEl.hidden = true;
+    completeElement.hidden=true;
     inputCountDownTimer.hidden = false;
 
     //Stop the countdown
@@ -76,11 +88,12 @@ function updateCountDown(e){
     //Check if input values are valid 
     if (countdownDate === ''){
         alert('Please enter valid values');
-    }else{
+    }
+    else{
          //Get number version of Date , update DOM
-    countdownValue = new Date(countdownDate).getTime();
-    console.log('Countdown Value:', countdownValue);
-    updateDOM();
+        countdownValue = new Date(countdownDate).getTime();
+        console.log('Countdown Value:', countdownValue);
+        updateDOM();
     }
 
 }
@@ -88,3 +101,4 @@ function updateCountDown(e){
 //Event Listener
 countdownForm.addEventListener('submit', updateCountDown);
 countdownBtn.addEventListener('click', reset);
+completeBtn.addEventListener('click', reset);
