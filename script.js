@@ -11,7 +11,8 @@ const completeBtn = document.getElementById('complete-button');
 
 let countdownTitle = '';
 let countdownDate='';
-let countdownValue = Date;
+//we are using date function assgined to countdownValue. instead of 'let countdown = Date' we are using 'let countdownValue = new Date()' for better performance & readability.
+let countdownValue = new Date();
 let countdownActive;
 let savedCountdown;
 
