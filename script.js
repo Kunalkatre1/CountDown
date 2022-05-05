@@ -84,8 +84,9 @@ function reset(){
     clearInterval(countdownActive);
 
     //Reset values
-    countdownElTitle = '';
+    countdownTitle = '';
     countdownDate = '';
+    localStorage.removeItem('countdown');
 }
 
 //Input Values from Form
